@@ -1,0 +1,126 @@
+{{ header }}
+<div id="account-address" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="row">{{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-sm-9' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}">{{ content_top }}
+            <h2>{{ text_address }}</h2>
+            <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <fieldset>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">{{ entry_name }}</label>
+                        <div class="col-sm-10">
+                            {% for language in languages %}
+                                <div class="input-group"><span class="input-group-addon"><img src="catalog/language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                                    <input type="text" name="item_description[{{ language.language_id }}][name]" value="{{ item_description[language.language_id] ? item_description[language.language_id].name }}" placeholder="{{ entry_name }}" class="form-control" />
+                                </div>
+                                {% if error_name[language.language_id] %}
+                                    <div class="text-danger">{{ error_name[language.language_id] }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">{{ entry_description_short }}</label>
+                        <div class="col-sm-10">
+                            {% for language in languages %}
+                                <div class="input-group"><span class="input-group-addon"><img src="catalog/language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                                    <textarea name="item_description[{{ language.language_id }}][description_short]" placeholder="{{ entry_description_short }}" class="form-control">{{ item_description[language.language_id] ? item_description[language.language_id].description_short }}</textarea>
+                                </div>
+                                    {% if error_description_short[language.language_id] %}
+                                        <div class="text-danger">{{ error_description_short[language.language_id] }}</div>
+                                    {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label">{{ entry_description }}</label>
+                        <div class="col-sm-10">
+                            {% for language in languages %}
+                                <div class="input-group"><span class="input-group-addon"><img src="catalog/language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                                    <textarea name="item_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" class="form-control">{{ item_description[language.language_id] ? item_description[language.language_id].description }}</textarea>
+                                </div>
+                                {% if error_description[language.language_id] %}
+                                    <div class="text-danger">{{ error_description[language.language_id] }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-firstname">{{ entry_status }}</label>
+                        <div class="col-sm-10">
+                            <select name="status" class="form-control">
+                                <option value="0"{% if not status %} selected="selected"{% endif %}>{{ text_disabled }}</option>
+                                <option value="1"{% if status %} selected="selected"{% endif %}>{{ text_enabled }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-firstname">{{ entry_image }}</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="image" value="{{ image }}" id="image_path" />
+                            <input type="file" name="image" id="image_upload" {% if image %} style="display: none;"{% endif%} />
+                            <img src="{{ thumb }}" id="image_thumb" />
+                            {% if image %}
+                                <button type="button" id="img_remove" class="btn btn-info">{{ button_remove }}</button>
+                            {% endif %}
+                            {% if error_image %}
+                                <div class="text-danger">{{ error_image }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-firstname">{{ entry_document }}</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="document" value="{{ document }}" id="document_path" />
+                            <input type="file" name="document" id="document_upload" {% if document %} style="display: none;"{% endif%} />
+                            {% if document_name %}
+                            <span id="document_name" style="font-size: 20px; border: solid 1px #333; padding: 3px;">{{ document_name }}</span>
+                            {% endif %}
+                            {% if document %}
+                                <button type="button" id="doc_remove" class="btn btn-info">{{ button_remove }}</button>
+                            {% endif %}
+                            {% if error_document %}
+                                <div class="text-danger">{{ error_document }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="buttons clearfix">
+                    <div class="pull-left"><a href="{{ back }}" class="btn btn-default">{{ button_back }}</a></div>
+                    <div class="pull-right">
+                        <input type="submit" value="{{ button_continue }}" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+            {{ content_bottom }}
+        </div>
+        {{ column_right }}
+    </div>
+</div>
+<script type="text/javascript">
+    $('#img_remove').on('click', function() {
+        $('#image_path').val('');
+        $(this).remove();
+        $('#image_thumb').attr('src', '{{ no_image }}');
+        $('#image_upload').show();
+    });
+
+    $('#doc_remove').on('click', function() {
+        $('#document_path').val('');
+        $(this).remove();
+        $('#document_name').remove();
+        $('#document_upload').show();
+    });
+</script>
+{{ footer }}
