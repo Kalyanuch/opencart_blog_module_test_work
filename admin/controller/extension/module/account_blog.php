@@ -58,12 +58,34 @@ class ControllerExtensionModuleAccountBlog extends Controller {
 
     public function install()
     {
+        $this->db->query("
+            CREATE TABLE `" . DB_PREFIX . "account_blog` (
+                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `customer_id` INT NOT NULL DEFAULT 0,
+                `status` TINYINT(1) NOT NULL DEFAULT 0,
+                `image` VARCHAR(255) NOT NULL DEFAULT '',
+                `document` VARCHAR(255) NOT NULL DEFAULT '',
+                `date_added` DATETIME,
+                `date_edited` DATETIME
+            );
+        ");
 
+        $this->db->query("
+            CREATE TABLE `" . DB_PREFIX . "account_blog_description` (
+                `blog_id` INT UNSIGNED NOT NULL DEFAULT 0,
+                `language_id` INT NOT NULL DEFAULT 0,
+                `name` VARCHAR(255) NOT NULL DEFAULT '',
+                `description` TEXT,
+                `description_short` TEXT,
+                PRIMARY KEY (`blog_id`, `language_id`)
+            );
+        ");
     }
 
     public function uninstall()
     {
-
+        $this->db->query("DROP TABLE `" . DB_PREFIX . "account_blog`");
+        $this->db->query("DROP TABLE `" . DB_PREFIX . "account_blog_description`");
     }
 
     protected function validate() {
