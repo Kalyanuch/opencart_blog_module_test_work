@@ -1,0 +1,50 @@
+{{ header }}
+<div id="account-account" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    {% if success %}
+        <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+    {% endif %}
+    {% if error_warning %}
+        <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+    {% endif %}
+    <div class="row">{{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-sm-9' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}">{{ content_top }}
+            <h2>{{ text_my_items }}</h2>
+            {% if items %}
+                <div class="container">
+                    <div class="row mb-2">
+                        {% for item in items %}
+                            <div class="blog-post col-md-4">
+                                <a href="{{ item.link }}"><img src="{{ item.thumb }}"></a>
+                                <h2 class="blog-post-title"><a href="{{ item.link }}">{{ item.title }}</a></h2>
+                                <p class="blog-post-meta">{{ item.date}} by <a href="{{ item.author_link }}">{{ item.author }}</a></p>
+                                <p>{{ item.description }}</p>
+                                <hr>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+            {% else %}
+                <p>{{ text_empty }}</p>
+            {% endif %}
+            {{ content_bottom }}
+        </div>
+        {{ column_right }}
+    </div>
+</div>
+{{ footer }}

@@ -70,11 +70,17 @@ class ModelAccountAccountBlog extends Model
         }
     }
 
-    public function getItems($customer_id, $data = [])
+    public function getItems($data = [])
     {
         $sql = "SELECT * FROM `" . DB_PREFIX . "account_blog` AS `ab` LEFT JOIN `" . DB_PREFIX . "account_blog_description` AS `abd` ON (`ab`.`id` = `abd`.`blog_id`)
             WHERE `abd`.`language_id` = '" . (int)$this->config->get('config_language_id') . "'
         ";
+
+        if(isset($data['customer_id']))
+            $sql .= " AND `ab`.`customer_id` = '" . (int)$data['customer_id'] . "'";
+
+        if(isset($data['status']))
+            $sql .= " AND `ab`.`status` = '" . (int)$data['status'] . "'";
 
         if(isset($data['start']))
         {

@@ -178,21 +178,22 @@ class ControllerAccountAccountBlog extends Controller {
 
         $data['items'] = [];
 
-        $filter_data = array(
+        $filter_data = [
             'start' => ($page - 1) * $this->limit,
-            'limit' => $this->limit
-        );
+            'limit' => $this->limit,
+            'customer_id' => $this->customer->getId(),
+        ];
 
         $items_total = $this->model_account_account_blog->getTotalItems($this->customer->getId());
 
-        $items = $this->model_account_account_blog->getItems($this->customer->getId(), $filter_data);
+        $items = $this->model_account_account_blog->getItems($filter_data);
 
         foreach($items as $item)
         {
             $data['items'][] = [
                 'title' => $item['name'],
                 'status' => $item['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-                'date_edited' => date('Y-m-d H:i:s', strtotime($item['date_edited'])),
+                'date_edited' => date('d.m.Y H:i:s', strtotime($item['date_edited'])),
                 'actions' => [
                     'edit' => $this->url->link('account/account_blog/edit', 'item_id=' . $item['id'], true),
                     'delete' => $this->url->link('account/account_blog/delete', 'item_id=' . $item['id'], true),
