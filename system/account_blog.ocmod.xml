@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Account Blog (Opencart 3.x)</name>
+    <code>opencart_3.x_account_blog</code>
+    <version>1.0.0</version>
+    <author>itlutsk@gmail.com</author>
+    <link>itlutsk@gmail.com</link>
+    <file path="catalog/view/theme/*/template/extension/module/account.twig">
+        <operation error="skip">
+            <search><![CDATA[<a href="{{ address }}" class="list-group-item">{{ text_address }}</a> <a href="{{ wishlist }}" class="list-group-item">{{ text_wishlist }}</a> <a href="{{ order }}" class="list-group-item">{{ text_order }}</a> <a href="{{ download }}" class="list-group-item">{{ text_download }}</a><a href="{{ recurring }}" class="list-group-item">{{ text_recurring }}</a> <a href="{{ reward }}" class="list-group-item">{{ text_reward }}</a> <a href="{{ return }}" class="list-group-item">{{ text_return }}</a> <a href="{{ transaction }}" class="list-group-item">{{ text_transaction }}</a> <a href="{{ newsletter }}" class="list-group-item">{{ text_newsletter }}</a>]]></search>
+            <add position="after">
+                <![CDATA[<a href="{{ account_blog }}" class="list-group-item">{{ text_account_blog }}</a>]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/controller/extension/module/account.php">
+        <operation error="skip">
+            <search><![CDATA[$data['recurring'] = $this->url->link('account/recurring', '', true);]]></search>
+            <add position="after">
+                <![CDATA[$data['account_blog'] = $this->url->link('account/account_blog', '', true);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/language/*/extension/module/account.php">
+        <operation error="skip">
+            <search><![CDATA[// Text]]></search>
+            <add position="after">
+                <![CDATA[ $_['text_account_blog'] = 'Blog'; ]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/common/footer.twig">
+        <operation error="skip">
+            <search><![CDATA[<li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>]]></search>
+            <add position="after">
+                <![CDATA[ <li><a href="{{ account_blog }}">{{ text_account_blog }}</a></li> ]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/controller/common/footer.php">
+        <operation error="skip">
+            <search><![CDATA[$data['newsletter'] = $this->url->link('account/newsletter', '', true);]]></search>
+            <add position="after">
+                <![CDATA[$data['account_blog'] = $this->url->link('blog/list', '', true);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/language/*/common/footer.php">
+        <operation error="skip">
+            <search><![CDATA[// Text]]></search>
+            <add position="after">
+                <![CDATA[ $_['text_account_blog'] = 'Blog'; ]]>
+            </add>
+        </operation>
+    </file>
+</modification>
