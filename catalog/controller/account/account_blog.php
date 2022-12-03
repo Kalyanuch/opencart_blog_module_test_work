@@ -305,7 +305,7 @@ class ControllerAccountAccountBlog extends Controller {
         $data['back'] = $this->url->link('account/account_blog', $url, true);
 
         if(isset($this->request->get['item_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST'))
-            $item_info = $this->model_account_account_blog->getItem($this->customer->getId(), $this->request->get['item_id']);
+            $item_info = $this->model_account_account_blog->getItem($this->request->get['item_id'], $this->customer->getId());
 
         $this->load->model('localisation/language');
 

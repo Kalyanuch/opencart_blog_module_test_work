@@ -34,9 +34,6 @@ class ControllerBlogAuthor extends Controller
         if(isset($this->request->get['page']))
             $url .= '&page=' . $this->request->get['page'];
 
-        if(isset($this->request->get['author_id']))
-            $url .= '&author_id=' . $this->request->get['author_id'];
-
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(

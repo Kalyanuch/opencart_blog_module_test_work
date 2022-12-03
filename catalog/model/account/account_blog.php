@@ -104,18 +104,28 @@ class ModelAccountAccountBlog extends Model
         return $query->row['total'];
     }
 
-    public function getItem($customer_id, $item_id)
+    public function getItem($item_id, $customer_id = 0)
     {
-        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "account_blog` WHERE `customer_id` = '" . (int)$customer_id . "' AND `id` = '" . (int)$item_id . "'");
+        $sql = "SELECT * FROM `" . DB_PREFIX . "account_blog` WHERE `id` = '" . (int)$item_id . "'";
+
+        if($customer_id)
+            $sql .= " AND `customer_id` = '" . (int)$customer_id . "'";
+
+        $query = $this->db->query($sql);
 
         return $query->row;
     }
 
-    public function getItemDescriptions($item_id)
+    public function getItemDescriptions($item_id, $language_id = 0)
     {
         $result = [];
 
-        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "account_blog_description` WHERE `blog_id` = '" . (int)$item_id . "'");
+        $sql = "SELECT * FROM `" . DB_PREFIX . "account_blog_description` WHERE `blog_id` = '" . (int)$item_id . "'";
+
+        if($language_id)
+            $sql .= " AND `language_id` = '" . (int)$language_id . "'";
+
+        $query = $this->db->query($sql);
 
         foreach($query->rows as $row)
             $result[$row['language_id']] = $row;
