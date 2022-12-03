@@ -97,19 +97,43 @@ class ModelAccountAccountBlog extends Model
         return $query->rows;
     }
 
-    public function getTotalItems($customer_id)
+    public function getTotalItems($data = [])
     {
-        $query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "account_blog` WHERE `customer_id` = '" . (int)$customer_id . "'");
+        $sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "account_blog`";
+
+        $where = [];
+
+        if(isset($data['customer_id']))
+            $where[] = "`customer_id` = '" . (int)$data['customer_id'] . "'";
+
+        if(isset($data['status']))
+            $where[] = "`status` = '" . (int)$data['status'] . "'";
+
+        if($where)
+            $sql .= " WHERE " . implode(" AND ", $where);
+
+        $query = $this->db->query($sql);
 
         return $query->row['total'];
     }
 
-    public function getItem($item_id, $customer_id = 0)
+    public function getItem($data = [])
     {
-        $sql = "SELECT * FROM `" . DB_PREFIX . "account_blog` WHERE `id` = '" . (int)$item_id . "'";
+        $sql = "SELECT * FROM `" . DB_PREFIX . "account_blog`";
 
-        if($customer_id)
-            $sql .= " AND `customer_id` = '" . (int)$customer_id . "'";
+        $where = [];
+
+        if(isset($data['item_id']))
+            $where[] = "`id` = '" . (int)$data['item_id'] . "'";
+
+        if(isset($data['customer_id']))
+            $where[] = "`customer_id` = '" . $data['customer_id'] . "'";
+
+        if(isset($data['status']))
+            $where[] = "`status` = '" . $data['status'] . "'";
+
+        if($where)
+            $sql .= " WHERE " . implode(" AND ", $where);
 
         $query = $this->db->query($sql);
 

@@ -17,14 +17,6 @@ class ControllerBlogPost extends Controller
             $page = 1;
         }
 
-        if(isset($this->request->get['author_id']))
-        {
-            $customer_id = (int)$this->request->get['author_id'];
-        } else
-        {
-            $customer_id = 1;
-        }
-
         if(isset($this->request->get['item_id']))
         {
             $item_id = (int)$this->request->get['item_id'];
@@ -50,7 +42,10 @@ class ControllerBlogPost extends Controller
             'href' => $this->url->link('blog/list', $url, true)
         );
 
-        $post = $this->model_account_account_blog->getItem($item_id, $customer_id);
+        $post = $this->model_account_account_blog->getItem([
+            'item_id' => $item_id,
+            'status' => 1,
+        ]);
 
         if($post)
         {

@@ -184,7 +184,7 @@ class ControllerAccountAccountBlog extends Controller {
             'customer_id' => $this->customer->getId(),
         ];
 
-        $items_total = $this->model_account_account_blog->getTotalItems($this->customer->getId());
+        $items_total = $this->model_account_account_blog->getTotalItems(['customer_id' => $this->customer->getId()]);
 
         $items = $this->model_account_account_blog->getItems($filter_data);
 
@@ -305,7 +305,10 @@ class ControllerAccountAccountBlog extends Controller {
         $data['back'] = $this->url->link('account/account_blog', $url, true);
 
         if(isset($this->request->get['item_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST'))
-            $item_info = $this->model_account_account_blog->getItem($this->request->get['item_id'], $this->customer->getId());
+            $item_info = $this->model_account_account_blog->getItem([
+                'item_id' => $this->request->get['item_id'],
+                'customer_id' => $this->customer->getId(),
+            ]);
 
         $this->load->model('localisation/language');
 

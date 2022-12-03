@@ -46,7 +46,7 @@ class ControllerBlogList extends Controller
             'status' => 1,
         ];
 
-        $items_total = $this->model_account_account_blog->getTotalItems($this->customer->getId());
+        $items_total = $this->model_account_account_blog->getTotalItems(['status' => 1]);
 
         $items = $this->model_account_account_blog->getItems($filter_data);
 

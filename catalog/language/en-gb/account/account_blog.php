@@ -8,6 +8,7 @@ $_['text_empty'] = 'You have no blog items in your account.';
 $_['text_my_items'] = 'Youre personal blog items.';
 $_['text_disabled'] = 'Disabled';
 $_['text_enabled'] = 'Enabled';
+$_['text_success'] = 'Successfully saved.';
 
 // Button
 $_['button_new_blog_item'] = 'Add new item to blog';

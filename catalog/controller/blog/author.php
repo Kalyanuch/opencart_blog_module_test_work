@@ -55,7 +55,10 @@ class ControllerBlogAuthor extends Controller
             'customer_id' => $customer_id,
         ];
 
-        $items_total = $this->model_account_account_blog->getTotalItems($this->customer->getId());
+        $items_total = $this->model_account_account_blog->getTotalItems([
+            'customer_id' => $this->customer->getId(),
+            'status' => 1,
+        ]);
 
         $items = $this->model_account_account_blog->getItems($filter_data);
 
